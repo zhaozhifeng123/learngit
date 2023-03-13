@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>随机多边形图形</title>
+    <title>more more more</title>
     <style>
         body {
             margin: 0;
@@ -104,14 +104,13 @@
                 top += y * speed;
 
                 if (left < -size || left > width || top < -size || top > height) {
-                                    shape.remove();
-            } else {
-                shape.style.left = `${left}px`;
-                shape.style.top = `${top}px`;
-            }
-        }, 50);
-    }
-
+                    shape.remove();
+                } else {
+                    shape.style.left = `${left}px`;
+                    shape.style.top = `${top}px`;
+                }
+            }, 50);
+        }
     setInterval(createShape, 500);
     </script>
 </body>
