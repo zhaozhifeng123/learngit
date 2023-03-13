@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>随机六边形图形</title>
+    <title>随机多边形图形</title>
     <style>
         body {
             margin: 0;
@@ -16,10 +16,34 @@
         }
         .shape {
             position: absolute;
+            transform-origin: center center;
+            border-radius: 5px;
+            animation: move 10s linear infinite;
+        }
+        .triangle {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 30px 52.2px 30px;
+        }
+        .quadrilateral {
             width: 50px;
             height: 50px;
-            transform: rotate(30deg);
-            border-radius: 5px;
+            transform: skew(20deg);
+        }
+        .pentagon {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 25px 43.3px 25px;
+        }
+        @keyframes move {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
         }
     </style>
 </head>
@@ -33,20 +57,38 @@
         
         function createShape() {
             const shape = document.createElement('div');
-            const size = Math.floor(Math.random() * 50) + 10;
+            const size = Math.floor(Math.random() * 50) + 30;
             const left = Math.floor(Math.random() * (width - size));
             const top = Math.floor(Math.random() * (height - size));
             const hue = Math.floor(Math.random() * 360);
             const color = `hsl(${hue}, 70%, 70%)`;
             const duration = Math.floor(Math.random() * 10) + 5;
             const direction = Math.random() * 360;
+            const speed = Math.floor(Math.random() * 10) + 1;
 
-            shape.classList.add('shape');
-            shape.style.width = `${size}px`;
-            shape.style.height = `${size}px`;
+            let shapeClass = 'shape';
+            let shapeStyle = `width: ${size}px; height: ${size}px;`;
+            let shapeType = Math.floor(Math.random() * 3);
+
+            switch (shapeType) {
+                case 0:
+                    shapeClass += ' triangle';
+                    shapeStyle += `border-color: transparent transparent ${color} transparent;`;
+                    break;
+                case 1:
+                    shapeClass += ' quadrilateral';
+                    shapeStyle += `background-color: ${color};`;
+                    break;
+                case 2:
+                    shapeClass += ' pentagon';
+                    shapeStyle += `border-color: transparent transparent ${color} transparent;`;
+                    break;
+            }
+
+            shape.classList.add(shapeClass);
+            shape.style.cssText += shapeStyle;
             shape.style.left = `${left}px`;
             shape.style.top = `${top}px`;
-            shape.style.backgroundColor = color;
 
             container.appendChild(shape);
 
@@ -58,20 +100,20 @@
                 const x = Math.cos(direction * Math.PI / 180);
                 const y = Math.sin(direction * Math.PI / 180);
 
-                left += x;
-                top += y;
+                left += x * speed;
+                top += y * speed;
 
                 if (left < -size || left > width || top < -size || top > height) {
-                    shape.remove();
-                } else {
-                    shape.style.left = `${left}px`;
-                    shape.style.top = `${top}px`;
-                }
-            }, 50);
-        }
+                                    shape.remove();
+            } else {
+                shape.style.left = `${left}px`;
+                shape.style.top = `${top}px`;
+            }
+        }, 50);
+    }
 
-        setInterval(createShape, 500);
+    setInterval(createShape, 500);
     </script>
 </body>
 </html>
-
+                   
